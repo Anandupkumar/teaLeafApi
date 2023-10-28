@@ -1,0 +1,29 @@
+{
+  "name": "tealeafapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anandupkumar/teaLeafApi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anandupkumar/teaLeafApi/issues"
+  },
+  "homepage": "https://github.com/Anandupkumar/teaLeafApi#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.6.2",
+    "nodemon": "^3.0.1",
+    "sequelize": "^6.33.0"
+  }
+}
