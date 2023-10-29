@@ -46,11 +46,42 @@ const registerUser = async (req, res) => {
 };
 
 const adminLogin = async (req, res) => {
-   res.status(200).json({
-      code: 200,
-      message: "done",
-      data: { data: req.authData },
-   });
+
+   try {
+      // Attempt to find an existing user
+      const existingUser = await getAdminUserByEmail(req.body.email);
+
+      if (!existingUser) {
+
+         // User with the email does not exists
+         res.status(400).json({
+            code: 400,
+            message: "user already exists with this email",
+            data: "",
+         });
+      } else {
+
+         // Generate a token for the new user
+         const token = jwt.sign(
+            { userId: existingUser.id, email: existingUser.email },
+            "tealeaftoken",
+            { expiresIn: "2h" }
+         );
+
+         res.status(200).json({
+            code: 200,
+            message: "admin login successfully",
+            data: { data: existingUser, token: token },
+         });
+      }
+   } catch (error) {
+      // Handle any errors that occur during the process
+      res.status(400).json({
+         code: 400,
+         message: "Error! Something went wrong.",
+         data: "",
+      });
+   }
 };
 
 const getAdminUserDetails = async (req, res) => {

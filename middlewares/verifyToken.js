@@ -17,9 +17,10 @@ const verifyToken = (req, res, next) => {
             });
          } else {
             req.authData = authData;
+            next();
          }
       });
-      next();
+      
    } else {
       res.status(403).json({
          code: 403,
