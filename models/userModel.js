@@ -42,31 +42,37 @@ const Users = sequelize.define("users", {
       allowNull: false,
       comment: "1-Admin, 2-Customer",
    },
-   //   created_at: {
-   //     type: Sequelize.DATE(3),
-   //     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP(3)'),
-   //   },
-   //   updated_at: {
-   //     type: Sequelize.DATE(3),
-   //     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP(3)'),
-   //   },
-   //   created_by: {
-   //     type: DataTypes.INTEGER,
-   //     references: {
-   //       model: Users,
-   //       key: "id",
-   //     },
-   //     allowNull: false,
-   //   },
-   //   updated_by: {
-   //     type: DataTypes.INTEGER,
-   //     references: {
-   //       model: Users,
-   //       key: "id",
-   //     },
-   //     allowNull: false,
-   //   },
+   password: {
+      type: Sequelize.STRING,
+      allowNull: true,
+   },
+   created_by: {
+      type: Sequelize.INTEGER,
+      references: {
+         model: "users",
+         key: "id",
+      },
+   },
+   updated_by: {
+      type: Sequelize.INTEGER,
+      references: {
+         model: "users",
+         key: "id",
+      },
+   },
 });
+
+Users.belongsTo(
+   Users,
+   {
+      foreignKey: "created_by",
+      as: "createdBy",
+   },
+   {
+      foreignKey: "updated_by",
+      as: "updatedBy",
+   }
+);
 
 const createNewAdminUser = async (data) => {
    const result = await Users.create({
@@ -74,7 +80,7 @@ const createNewAdminUser = async (data) => {
       last_name: data.last_name,
       email: data.email,
       phone: data.phone,
-      user_type: 1,
+      user_type: 1
    });
    return result;
 };
@@ -82,6 +88,13 @@ const createNewAdminUser = async (data) => {
 const getAdminUserByEmail = async (email) => {
    const result = await Users.findOne({
       where: { email: email },
+   });
+   return result;
+};
+
+const getUserDetailsWithPhone = async (phone) => {
+   const result = await Users.findOne({
+      where: { phone: phone },
    });
    return result;
 };
@@ -95,4 +108,9 @@ sequelize
       console.error("Unable to create table : ", error);
    });
 
-module.exports = { Users, createNewAdminUser, getAdminUserByEmail };
+module.exports = {
+   Users,
+   createNewAdminUser,
+   getAdminUserByEmail,
+   getUserDetailsWithPhone,
+};
