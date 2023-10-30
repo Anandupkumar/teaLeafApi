@@ -13,6 +13,9 @@ router.get("/", (req, res) => {
 router.post("/user-register", authController.registerUser);
 router.post("/admin-login", authController.adminLogin);
 
+router.post("/check-number-exist", authController.checkNumberExist);
+router.post("/verify-otp", authController.verifyOtp);
+
 router.get("/get-user-details", verifyToken, authController.getAdminUserDetails);
 
 
